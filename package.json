@@ -1,0 +1,28 @@
+{
+  "name": "my-team-profiles",
+  "version": "1.0.0",
+  "description": "A profile generator to be used for your development team",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjos7/my-team-profiles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjos7/my-team-profiles/issues"
+  },
+  "homepage": "https://github.com/mjos7/my-team-profiles#readme",
+  "devDependencies": {
+    "jest": "^27.0.6"
+  },
+  "dependencies": {
+    "inquirer": "^8.1.2"
+  }
+}
