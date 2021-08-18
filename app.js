@@ -1,4 +1,4 @@
-// link to create page
+// generates web page
 const generatePage = require('./src/generatePage');
 
 // team profiles
@@ -194,7 +194,7 @@ const addEmployee = () => {
     });
 };
 
-// function to generate HTML page file using file system
+// function to generate HTML page
 const writeFile = data => {
   fs.writeFile('./dist/index.html', data, err => {
     // if there is an error
@@ -204,7 +204,7 @@ const writeFile = data => {
       // when the profile has been created
     } else {
       console.log(
-        'Your team profile has been successfully created! Please check out the index.html'
+        'Your team profile has been successfully created! Please check out the index.html file in the dist folder'
       );
     }
   });
