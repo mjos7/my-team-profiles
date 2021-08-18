@@ -1,195 +1,222 @@
-'use strict';
+// link to create page
+const generatePage = require('./src/generatePage');
 
+// team profiles
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+
+// node modules
+const fs = require('fs');
 const inquirer = require('inquirer');
-const generatePage = require('./src/page-template');
-const { writeFile, copyFile } = require('./utils/generate-page.js');
 
-const promptUser = () => {
-  return inquirer.prompt([
-    {
-      type: 'input',
-      name: 'mgrName',
-      message: 'What is the name of your Team Manager?',
-      validate: managerName => {
-        if (managerName) {
-          return true;
-        } else {
-          console.log(`Please enter your Manager's name`);
-          return false;
-        }
-      },
-    },
-    {
-      type: 'input',
-      name: 'mgrID',
-      message: 'What is the name of your Team Manager?',
-      validate: managerName => {
-        if (managerName) {
-          return true;
-        } else {
-          console.log(`Please enter your Manager's name`);
-          return false;
-        }
-      },
-    },
-    {
-      type: 'input',
-      name: 'mgrEmail',
-      message: 'What is the name of your Team Manager?',
-      validate: managerName => {
-        if (managerName) {
-          return true;
-        } else {
-          console.log(`Please enter your Manager's name`);
-          return false;
-        }
-      },
-    },
-    {
-      type: 'input',
-      name: 'officeNumber',
-      message: 'What is the name of your Team Manager?',
-      validate: managerName => {
-        if (managerName) {
-          return true;
-        } else {
-          console.log(`Please enter your Manager's name`);
-          return false;
-        }
-      },
-    },
-    {
-      type: 'input',
-      name: 'github',
-      message: 'Enter your GitHub Username',
-      validate: githubUserInput => {
-        if (githubUserInput) {
-          return true;
-        } else {
-          console.log('Please enter your GitHub Username');
-          return false;
-        }
-      },
-    },
-    {
-      type: 'confirm',
-      name: 'confirmAbout',
-      message:
-        'Would you like to enter some information about yourself for an "About" section?',
-      default: true,
-    },
-    {
-      type: 'input',
-      name: 'about',
-      message: 'Provide some information about yourself:',
-      when: ({ confirmAbout }) => confirmAbout,
-    },
-  ]);
-};
+// team array
+const teamArray = [];
 
-const promptProject = portfolioData => {
-  console.log(`
-  =================
-  Add a New Project
-  =================
-  `);
-
-  // If there's no 'projects' array property, create one
-  if (!portfolioData.projects) {
-    portfolioData.projects = [];
-  }
+// manager profile
+const addManager = () => {
   return inquirer
     .prompt([
       {
         type: 'input',
         name: 'name',
-        message: 'What is the name of your project?',
-        validate: projectName => {
-          if (projectName) {
+        message: `What is the Manager's name?`,
+        validate: nameInput => {
+          if (nameInput) {
             return true;
           } else {
-            console.log('Please enter your Project Name');
+            console.log(`Please enter the manager's name`);
             return false;
           }
         },
       },
       {
         type: 'input',
-        name: 'description',
-        message: 'Provide a description of the project (Required)',
-        validate: projDescription => {
-          if (projDescription) {
-            return true;
-          } else {
-            console.log('Please enter a Project Description');
+        name: 'id',
+        message: `What is the manager's ID.`,
+        validate: nameInput => {
+          if (isNaN(nameInput)) {
+            console.log(`Please enter the manager's ID`);
             return false;
+          } else {
+            return true;
           }
         },
-      },
-      {
-        type: 'checkbox',
-        name: 'languages',
-        message: 'What did you build this project with? (Check all that apply)',
-        choices: [
-          'JavaScript',
-          'HTML',
-          'CSS',
-          'ES6',
-          'jQuery',
-          'Bootstrap',
-          'Node',
-        ],
       },
       {
         type: 'input',
-        name: 'link',
-        message: 'Enter the GitHub link to your project. (Required)',
-        validate: githubLink => {
-          if (githubLink) {
+        name: 'email',
+        message: `What is the manager's email.`,
+        validate: email => {
+          if (email) {
             return true;
           } else {
-            console.log('Please enter your Github Link');
+            console.log(`Please enter the manager's email!`);
             return false;
           }
         },
       },
       {
-        type: 'confirm',
-        name: 'feature',
-        message: 'Would you like to feature this project?',
-        default: false,
+        type: 'input',
+        name: 'officeNumber',
+        message: `What is the manager's office number`,
+        validate: nameInput => {
+          if (isNaN(nameInput)) {
+            console.log(`Please enter an office number!`);
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+    ])
+    .then(managerInput => {
+      const { name, id, email, officeNumber } = managerInput;
+      const manager = new Manager(name, id, email, officeNumber);
+
+      teamArray.push(manager);
+      console.log(manager);
+    });
+};
+
+const addEmployee = () => {
+  console.log(`
+    =================
+    REST OF TEAM MEMBERS
+    =================
+    `);
+
+  // adding other employeees
+  return inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'role',
+        message: `What is your employee's role`,
+        choices: ['Engineer', 'Intern'],
+      },
+      {
+        type: 'input',
+        name: 'name',
+        message: `What is the name of the employee?`,
+        validate: nameInput => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log(`Please enter an employee's name`);
+            return false;
+          }
+        },
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: `What is the employee's ID.`,
+        validate: nameInput => {
+          if (isNaN(nameInput)) {
+            console.log(`Please enter the employee's ID`);
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: `What is the employee's email.`,
+        validate: email => {
+          if (email) {
+            return true;
+          } else {
+            console.log('Please enter an email!');
+            return false;
+          }
+        },
+      },
+      {
+        type: 'input',
+        name: 'github',
+        message: `What is the employee's github username.`,
+        when: input => input.role === 'Engineer',
+        validate: nameInput => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log(`Please enter the employee's github username`);
+          }
+        },
+      },
+      {
+        type: 'input',
+        name: 'school',
+        message: `What is the intern's school`,
+        when: input => input.role === 'Intern',
+        validate: nameInput => {
+          if (nameInput) {
+            return true;
+          } else {
+            console.log(`Please enter the intern's school`);
+          }
+        },
       },
       {
         type: 'confirm',
-        name: 'confirmAddProject',
-        message: 'Would you like to enter another project?',
+        name: 'confirmAddEmployee',
+        message: 'Would you like to add any more team members?',
         default: false,
       },
     ])
-    .then(projectData => {
-      portfolioData.projects.push(projectData);
-      if (projectData.confirmAddProject) {
-        return promptProject(portfolioData);
+    .then(employeeData => {
+      // console.log(employeeData);
+
+      let { name, id, email, role, github, school, confirmAddEmployee } =
+        employeeData;
+      let employee;
+
+      if (role === 'Engineer') {
+        employee = new Engineer(name, id, email, github);
+
+        console.log(employee);
+      } else if (role === 'Intern') {
+        employee = new Intern(name, id, email, school);
+
+        console.log(employee);
+      }
+
+      teamArray.push(employee);
+
+      if (confirmAddEmployee) {
+        return addEmployee(teamArray);
       } else {
-        return portfolioData;
+        return teamArray;
       }
     });
 };
 
-promptUser()
-  .then(promptProject)
-  .then(portfolioData => {
-    return generatePage(portfolioData);
+// function to generate HTML page file using file system
+const writeFile = data => {
+  fs.writeFile('./dist/index.html', data, err => {
+    // if there is an error
+    if (err) {
+      console.log(err);
+      return;
+      // when the profile has been created
+    } else {
+      console.log(
+        'Your team profile has been successfully created! Please check out the index.html'
+      );
+    }
+  });
+};
+
+addManager()
+  .then(addEmployee)
+  .then(teamArray => {
+    return generatePage(teamArray);
   })
   .then(pageHTML => {
     return writeFile(pageHTML);
-  })
-  .then(writeFileResponse => {
-    console.log(writeFileResponse);
-    return copyFile();
-  })
-  .then(copyFileResponse => {
-    console.log(copyFileResponse);
   })
   .catch(err => {
     console.log(err);

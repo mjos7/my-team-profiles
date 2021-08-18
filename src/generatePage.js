@@ -11,9 +11,9 @@ const generateManager = function (manager) {
         <li>ID: ${manager.id}</li>
         <li>
           Email:
-          <a href="mailto:${manager.email}">${manager.email}</a>
+          <a target="_blank" href="mailto:${manager.email}">${manager.email}</a>
         </li>
-        <li>Office Number: ${manager.officeNumber}<a href="tel:${manager.officeNumber}"></a></li>
+        <li>Office Number: <a href="tel:${manager.officeNumber}">${manager.officeNumber}</a></li>
       </ul>
     </div>
   </div>
@@ -30,13 +30,12 @@ const generateEngineer = function (engineer) {
     </div>
     <div class="card-body">
       <ul>
-        <li>ID: $${engineer.id}</li>
+        <li>ID: ${engineer.id}</li>
         <li>
           Email:
-          <a href="mailto:${engineer.email}">${engineer.email}</a>
+          <a target="_blank" href="mailto:${engineer.email}">${engineer.email}</a>
         </li>
-        <li>Office Number: ${manager.officeNumber}<a href="tel:${manager.officeNumber}"</a></li>
-        <li>Github: <a href="https://github.com/${engineer.github}>${engineer.github}</a></li>
+        <li>Github: <a target="_blank" href="https://github.com/${engineer.github}">${engineer.github}</a></li>
       </ul>
     </div>
   </div>
@@ -56,7 +55,7 @@ const generateIntern = function (intern) {
         <li>ID: ${intern.id}</li>
         <li>
           Email:
-          <a href="mailto:${intern.email}">${intern.email}</a>
+          <a target="_blank" href="mailto:${intern.email}">${intern.email}</a>
         </li>
         <li>School: ${intern.school}</a></li>
       </ul>
@@ -123,7 +122,7 @@ const generateTeamPage = function (employeeCards) {
       <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
-      <header><h2>My Team</h2></header>
+      <header><h2>MY TEAM</h2></header>
       <main>
       ${employeeCards}
       </main>
