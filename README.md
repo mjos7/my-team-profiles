@@ -3,7 +3,10 @@
 ## General
 
 **Screenshot of Mockup**
-![Demo Recording](dist/assets/img/my-team-profiles-mockup.png)
+![Screenshot](dist/assets/img/my-team-profiles-mockup.png)
+
+**Recorded Demo Walk through**
+https://www.loom.com/share/d2f40a81a0474d1c8850d281b8f16c49
 
 ## Description
 
